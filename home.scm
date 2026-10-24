@@ -24,7 +24,8 @@
   #:use-module (gnu packages shellutils)     ;; direnv is here
   #:use-module (gnu packages librewolf)
   #:use-module (nonguix) ;; steam is here
-  #:use-module (evil packages discord)
+  ;; #:use-module (evil packages discord)
+  #:use-module (xyz jackfaller discord)
   ; #:use-module (mmagueta packages themes) ;; neutral-nextstep-cursor is here
   #:use-module (gnu packages package-management) ;; nix is here
   #:use-module (gnu services)
