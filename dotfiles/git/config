@@ -1,0 +1,6 @@
+[user]
+	name = Marcos Magueta
+	email = maguetamarcos@gmail.com
+	signingkey = CE25E21959B460A84BDFB93F0AD3A1263F9DE73E
+[commit]
+	gpgsign = true

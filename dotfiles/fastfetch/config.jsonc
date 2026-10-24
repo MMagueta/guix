@@ -1,0 +1,22 @@
+// fastfetch: GNU head on a white square as the logo, drawn as a real image
+// via sixel (WezTerm supports it; terminals without sixel will show nothing).
+{
+  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+  //"logo": {
+  //  "type": "sixel",
+  //  "source": "~/.config/fastfetch/gnu-head.png",
+  //  "width": 36,
+  //  "padding": { "top": 1, "left": 1, "right": 3 }
+  //},
+  // fastfetch's default module list.  It must be spelled out: a config file
+  // without "modules" prints only the logo.
+  "modules": [
+    "title", "separator",
+    "os", "host", "kernel", "uptime", "packages", "shell",
+    "display", "de", "wm", "wmtheme", "theme", "icons", "font", "cursor",
+    "terminal", "terminalfont",
+    "cpu", "gpu", "memory", "swap", "disk", "localip",
+    "battery", "poweradapter", "locale",
+    "break", "colors"
+  ]
+}
