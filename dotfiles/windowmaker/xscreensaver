@@ -1,0 +1,10 @@
+timeout: 0:05:00
+cycle: 0:10:00
+lock: True
+lockTimeout: 0:05:00
+mode: random
+splash: False
+dpmsEnabled: True
+dpmsStandby: 0:10:00
+dpmsSuspend: 0:10:00
+dpmsOff: 0:10:00

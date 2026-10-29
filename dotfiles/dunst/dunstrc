@@ -1,0 +1,61 @@
+# Toasts in Window Maker's default look: a light-grey body with black text
+# and a hard black frame like its menus, square corners, and critical ones
+# in black and white like a focused title bar.
+
+[global]
+    # Top right, beside the Dock (64px tiles).
+    origin = top-right
+    offset = (72, 8)
+    width = 320
+    height = (0, 160)
+    notification_limit = 5
+
+    frame_width = 1
+    frame_color = "#000000"
+    corner_radius = 0
+    gap_size = 6
+    separator_height = 1
+    separator_color = frame
+    padding = 8
+    horizontal_padding = 10
+    text_icon_padding = 10
+
+    font = Sans 9
+    markup = full
+    format = "<b>%s</b>\n%b"
+    alignment = left
+    word_wrap = yes
+    ellipsize = end
+    show_age_threshold = 60
+
+    icon_position = left
+    min_icon_size = 32
+    max_icon_size = 48
+    enable_recursive_icon_lookup = true
+    icon_theme = Adwaita
+
+    progress_bar_frame_width = 1
+    progress_bar_corner_radius = 0
+
+    mouse_left_click = do_action, close_current
+    mouse_middle_click = close_all
+    mouse_right_click = close_current
+
+[urgency_low]
+    background = "#c4c4c4"
+    foreground = "#404040"
+    highlight = "#505075"
+    timeout = 5
+
+[urgency_normal]
+    background = "#aaaaaa"
+    foreground = "#000000"
+    highlight = "#505075"
+    timeout = 8
+
+[urgency_critical]
+    background = "#000000"
+    foreground = "#ffffff"
+    frame_color = "#ffffff"
+    highlight = "#ffffff"
+    timeout = 0

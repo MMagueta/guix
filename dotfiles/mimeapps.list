@@ -1,0 +1,29 @@
+[Default Applications]
+x-scheme-handler/mailto=icedove.desktop;
+image/avif=nsxiv.desktop;
+image/bmp=nsxiv.desktop;
+image/gif=nsxiv.desktop;
+image/jpeg=nsxiv.desktop;
+image/png=nsxiv.desktop;
+image/svg+xml=nsxiv.desktop;
+image/tiff=nsxiv.desktop;
+image/webp=nsxiv.desktop;
+image/x-xpixmap=nsxiv.desktop;
+image/x-portable-bitmap=nsxiv.desktop;
+image/x-portable-graymap=nsxiv.desktop;
+image/x-portable-pixmap=nsxiv.desktop;
+
+[Added Associations]
+x-scheme-handler/mailto=icedove.desktop;
+image/avif=nsxiv.desktop;
+image/bmp=nsxiv.desktop;
+image/gif=nsxiv.desktop;
+image/jpeg=nsxiv.desktop;
+image/png=nsxiv.desktop;
+image/svg+xml=nsxiv.desktop;
+image/tiff=nsxiv.desktop;
+image/webp=nsxiv.desktop;
+image/x-xpixmap=nsxiv.desktop;
+image/x-portable-bitmap=nsxiv.desktop;
+image/x-portable-graymap=nsxiv.desktop;
+image/x-portable-pixmap=nsxiv.desktop;

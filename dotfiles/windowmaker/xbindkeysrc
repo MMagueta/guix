@@ -1,0 +1,34 @@
+# ThinkPad X1 Carbon function row (Fn Lock off: the media functions are the
+# default, F1-F12 with Fn).  F8 (airplane mode) is handled by the kernel.
+
+# F1/F2/F3: speaker mute, volume down, volume up (capped at 100%).
+"wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+  XF86AudioMute
+"wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%-"
+  XF86AudioLowerVolume
+"wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+"
+  XF86AudioRaiseVolume
+
+# F4: microphone mute.
+"wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
+  XF86AudioMicMute
+
+# F5/F6: backlight; never go fully black.
+"brightnessctl --min-value=1 set 5%-"
+  XF86MonBrightnessDown
+"brightnessctl set 5%+"
+  XF86MonBrightnessUp
+
+# F7: how to use an external display (extend, duplicate, ...).
+"~/GNUstep/Library/WindowMaker/display-mode"
+  XF86Display
+
+# Super+Space: application launcher.
+"rofi -show drun -show-icons"
+  Mod4 + space
+
+# F9 (notification centre, remapped to XF86Launch3 in laptop.scm): Do Not
+# Disturb, e.g. while screen sharing.  Pausing hides toasts at once; those
+# that arrive meanwhile show up on resume.
+"dunstctl set-paused toggle; dunstctl is-paused | grep -q false && notify-send -u low 'Notifications on'"
+  XF86Launch3

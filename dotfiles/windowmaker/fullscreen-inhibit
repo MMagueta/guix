@@ -1,0 +1,18 @@
+#!/bin/sh
+
+# Keep xscreensaver from blanking (or powering off the display) while the
+# focused window is fullscreen, e.g. a YouTube video.  Guix builds
+# xscreensaver without xscreensaver-systemd, so browsers' D-Bus inhibit
+# requests go unheard; instead, reset the idle timer more often than the
+# 5-minute timeout in ~/.xscreensaver.
+while sleep 60; do
+  # Only while unblanked: -deactivate on a locked screen would raise the
+  # password dialog.
+  xscreensaver-command -time 2>/dev/null | grep -q 'non-blanked' || continue
+  win=$(xprop -root _NET_ACTIVE_WINDOW | awk '{ print $NF }')
+  case $win in
+    0x0 | "") continue ;;
+  esac
+  xprop -id "$win" _NET_WM_STATE | grep -q _NET_WM_STATE_FULLSCREEN &&
+    xscreensaver-command -deactivate >/dev/null
+done

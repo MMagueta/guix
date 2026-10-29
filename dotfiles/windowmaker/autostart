@@ -1,0 +1,22 @@
+#!/bin/sh
+
+# xscreensaver blanks and locks on idle (see ~/.xscreensaver); xss-lock also
+# locks it before suspend, e.g. when the lid is closed.
+xscreensaver --no-splash &
+xss-lock -- xscreensaver-command -lock &
+
+# ...but not while a fullscreen window (a video) has focus.  autostart runs
+# again on every wmaker restart, so start it only once.
+pgrep -u "$USER" -f fullscreen-inhibit >/dev/null ||
+  "$HOME/GNUstep/Library/WindowMaker/fullscreen-inhibit" &
+
+# Silence the X bell (Emacs rings it at buffer edges, for one).  It goes to
+# the PC speaker, which this laptop's audio codec plays as a crackle.
+xset b off
+
+# Notification toasts; see ~/.config/dunst/dunstrc.
+pgrep -u "$USER" -x dunst >/dev/null || dunst &
+
+# Fn-row keys (volume, mic, brightness); see ~/.xbindkeysrc.  autostart runs
+# again on every wmaker restart, so start it only once.
+pgrep -u "$USER" -x xbindkeys >/dev/null || xbindkeys

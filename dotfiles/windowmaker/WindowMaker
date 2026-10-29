@@ -1,0 +1,30 @@
+{
+  "FocusMode" = "ClickToFocus";
+  "IconSize" = 64;
+  "ScreenCaptureKey" = None;
+  "WindowCaptureKey" = None;
+  "PartialCaptureKey" = None;
+  "IconPath" = (
+    "~/GNUstep/Library/Icons",
+    "~/GNUstep/Library/WindowMaker/Pixmaps",
+    "~/GNUstep/Library/WindowMaker/CachedPixmaps",
+    "~/.guix-home/profile/share/WindowMaker/Icons",
+    "~/.guix-home/profile/share/WindowMaker/Pixmaps",
+    "~/.guix-home/profile/share/pixmaps"
+  );
+  "WindowTitleFont" = "Sans:bold:pixelsize=12";
+  "IconTitleFont" = "Sans:pixelsize=9";
+  "MenuTextFont" = "Sans:pixelsize=11";
+  "MenuTitleFont" = "Sans:bold:pixelsize=12";
+  "AutoFocus" = NO;
+  "RaiseDelay" = 0;
+  "KeepDockOnPrimaryHead" = YES;
+  "WindowPlacement" = "auto";
+  "OpaqueMove" = YES;
+  "NoWindowUnderDock" = YES;
+  "NoWindowOverIcons" = NO;
+  "DisableAnimations" = NO;
+  "SaveSessionOnExit" = YES;
+  "WorkspaceNames" = ("Main", "Work", "Web", "Media");
+  "WorkspaceCount" = 4;
+}

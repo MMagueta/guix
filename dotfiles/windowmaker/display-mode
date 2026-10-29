@@ -1,0 +1,126 @@
+#!/bin/sh
+
+# Pick how to use an external display (HDMI, DisplayPort), like Win+P:
+# extend, duplicate, or only one of the screens.  HiDPI outputs (2560px wide
+# or more) get the same scaling as in start-session, so both screens show
+# things at the same size.
+#
+# Without arguments it asks with rofi.  "display-mode LAYOUT" applies one of
+# the menu's layouts ("Extend right", ...) at the native resolution, as
+# start-session does at login.
+scale_percent=150 # Keep in sync with start-session.
+case $((scale_percent % 100)) in
+  0) filter=nearest ;;
+  *) filter=bilinear ;;
+esac
+
+internal=$(xrandr --query | awk '/^eDP[^ ]* connected/ { print $1; exit }')
+external=$(xrandr --query |
+             awk '/ connected/ && $1 !~ /^eDP/ { print $1; exit }')
+if [ -z "$external" ]; then
+  notify-send "Displays" "No external display connected."
+  exit 1
+fi
+
+# OUTPUT's modes as WIDTHxHEIGHT, its preferred one (marked "+") first.
+modes() {
+  xrandr --query |
+    awk -v output="$1" '
+         $1 == output { found = 1; next }
+         /^[^ ]/      { found = 0 }
+         found && /\+/ { print $1 }
+         found && !/\+/ { rest = rest $1 "\n" }
+         END { printf "%s", rest }'
+}
+
+# The size a MODE takes on screen, as "WIDTH HEIGHT": scaled down by
+# scale_percent when it is HiDPI.
+size() {
+  echo "$1" |
+    awk -F x -v pct="$scale_percent" '{
+          if ($1 >= 2560)
+            printf "%d %d\n", int($1 * 100 / pct + 0.5),
+                              int($2 * 100 / pct + 0.5)
+          else
+            print $1, $2
+        }'
+}
+
+# xrandr options that show OUTPUT in MODE as WIDTHxHEIGHT on screen.
+show() {
+  if [ "$3" = "$2" ]; then
+    echo "--output $1 --mode $2 --scale 1x1"
+  else
+    echo "--output $1 --mode $2 --scale-from $3 --filter $filter"
+  fi
+}
+
+# A lit screen other than the primary one, which the Dock can move to.
+other=$(xrandr --query |
+          awk '/ connected/ && !/ primary / && / [0-9]+x[0-9]+\+/ { print $1; exit }')
+
+choice=$1
+[ -n "$choice" ] ||
+  choice=$(printf '%s\n' "Extend right" "Extend left" "Extend above" \
+                         "Duplicate" "External only" "Laptop only" \
+                         ${other:+"Move Dock to $other"} |
+             rofi -dmenu -i -p "$external")
+[ -n "$choice" ] || exit
+
+# The Dock sits on the primary screen (KeepDockOnPrimaryHead), and Window
+# Maker only places it when it starts, so restart it.
+if [ "$choice" = "Move Dock to $other" ]; then
+  xrandr --output "$other" --primary
+  pkill -USR1 -u "$USER" -f "^wmaker --for-real"
+  exit
+fi
+
+# The laptop always uses its native mode.  For the external screen, offer
+# its modes with the native one first, preselected, unless LAYOUT was given.
+imode=$(modes "$internal" | head -n 1)
+emode=$(modes "$external" | head -n 1)
+if [ -z "$1" ] && [ "$choice" != "Laptop only" ]; then
+  emode=$(modes "$external" |
+            sed '1s/$/ (recommended)/' |
+            rofi -dmenu -i -p "$external resolution" |
+            cut -d ' ' -f 1)
+  [ -n "$emode" ] || exit
+fi
+
+set -- $(size "$imode"); iw=$1 ih=$2
+set -- $(size "$emode"); ew=$1 eh=$2
+int=$(show "$internal" "$imode" "${iw}x$ih")
+ext=$(show "$external" "$emode" "${ew}x$eh")
+
+# Each choice sets the screen size and the outputs' options, which are split
+# on spaces on purpose.
+case $choice in
+  "Extend right")
+    fb="$((iw + ew))x$((ih > eh ? ih : eh))"
+    outputs="$int --pos 0x0 --primary $ext --pos ${iw}x0" ;;
+  "Extend left")
+    fb="$((iw + ew))x$((ih > eh ? ih : eh))"
+    outputs="$ext --pos 0x0 $int --pos ${ew}x0 --primary" ;;
+  "Extend above")
+    fb="$((iw > ew ? iw : ew))x$((ih + eh))"
+    outputs="$ext --pos 0x0 $int --pos $(( (ew - iw) / 2 ))x$eh --primary" ;;
+  "Duplicate")
+    # Stretch the external screen over the laptop's area; a different
+    # aspect ratio (16:9 against the laptop's 16:10) distorts slightly.
+    fb="${iw}x$ih"
+    outputs="$int --pos 0x0 --primary $(show "$external" "$emode" "${iw}x$ih") --pos 0x0" ;;
+  "External only")
+    fb="${ew}x$eh"
+    outputs="--output $internal --off $ext --pos 0x0 --primary" ;;
+  "Laptop only")
+    fb="${iw}x$ih"
+    outputs="--output $external --off $int --pos 0x0 --primary" ;;
+  *) exit ;;
+esac
+
+# The server checks a new screen size against each lit output's unscaled
+# mode (2880x1800 for the laptop), while xrandr only makes room for its
+# scaled size, so resizing with scaled outputs on fails with BadMatch and
+# leaves the external screen dark.  Turn both off, resize, then light them.
+xrandr --fb "$fb" --output "$internal" --off --output "$external" --off
+xrandr $outputs

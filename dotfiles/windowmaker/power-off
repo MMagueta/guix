@@ -1,0 +1,38 @@
+#!/bin/sh
+
+# Power off or restart ("power-off poweroff" or "power-off reboot") without
+# losing work: confirm first, ask every window to close as its close button
+# would, and cancel if any is still open after a while, such as an editor
+# asking about unsaved changes.  elogind lets the active session do this
+# without a password.
+case $1 in
+  poweroff) label="Power off" ;;
+  reboot)   label="Restart" ;;
+  *) echo "usage: $0 poweroff|reboot" >&2; exit 2 ;;
+esac
+
+# "No" comes first, so a stray Enter cancels.
+answer=$(printf 'No\nYes\n' | rofi -dmenu -i -p "$label?")
+[ "$answer" = Yes ] || exit
+
+wmctrl -l | while read -r id rest; do
+  wmctrl -i -c "$id"
+done
+
+timeout=30
+while [ "$timeout" -gt 0 ] && [ -n "$(wmctrl -l)" ]; do
+  sleep 1
+  timeout=$((timeout - 1))
+done
+
+# Titles of what is left; wmctrl -l prints ID, desktop, host and title.
+left=$(wmctrl -l | awk '{ $1 = $2 = $3 = ""; sub(/^ +/, ""); print }' |
+         head -n 5)
+if [ -n "$left" ]; then
+  notify-send -u critical "$label cancelled" "Still open:
+$left"
+  exit 1
+fi
+
+sync
+loginctl "$1"

@@ -1,0 +1,128 @@
+{
+  Applications = (
+    {
+      Command = "-";
+      Name = Logo.WMDock;
+      AutoLaunch = No;
+      Forced = No;
+      Position = "0,0";
+      Lock = Yes;
+    },
+    {
+      Command = "emacs";
+      Name = emacs.Emacs;
+      AutoLaunch = No;
+      Forced = No;
+      Position = "0,1";
+      Lock = Yes;
+    },
+    {
+      Command = "alacritty";
+      Name = Alacritty.Alacritty;
+      AutoLaunch = No;
+      Forced = No;
+      Position = "0,2";
+      Lock = Yes;
+    },
+    {
+      Command = "librewolf";
+      Name = Navigator.librewolf;
+      AutoLaunch = No;
+      Forced = No;
+      Position = "0,3";
+      Lock = Yes;
+    },
+    {
+      Command = "icedove";
+      Name = Mail.Icedove;
+      AutoLaunch = No;
+      Forced = No;
+      Position = "0,4";
+      Lock = Yes;
+    },
+    {
+      Command = "pcmanfm";
+      Name = pcmanfm.Pcmanfm;
+      AutoLaunch = No;
+      Forced = No;
+      Position = "0,5";
+      Lock = Yes;
+    },
+    {
+      Command = "signal-desktop --password-store=gnome-libsecret";
+      Name = signal.signal;
+      AutoLaunch = No;
+      Forced = No;
+      Position = "0,6";
+      Lock = Yes;
+    },
+    {
+      Command = "gimp";
+      Name = gimp.Gimp;
+      AutoLaunch = No;
+      Forced = No;
+      Position = "0,7";
+      Lock = Yes;
+    },
+    {
+      Command = "pavucontrol";
+      Name = pavucontrol.pavucontrol;
+      AutoLaunch = No;
+      Forced = No;
+      Position = "0,8";
+      Lock = Yes;
+    },
+    {
+      Command = "wmclock";
+      Name = wmclock.WMClock;
+      AutoLaunch = Yes;
+      Forced = No;
+      Position = "0,9";
+      Lock = Yes;
+    },
+    {
+      Command = "wmbattery";
+      Name = wmbattery.wmbattery;
+      AutoLaunch = Yes;
+      Forced = No;
+      Position = "0,10";
+      Lock = Yes;
+    },
+    {
+      Command = "wmcpuload";
+      Name = wmcpuload.DockApp;
+      AutoLaunch = Yes;
+      Forced = No;
+      Position = "0,11";
+      Lock = Yes;
+    },
+    {
+      Command = "wmnd";
+      Name = wmnd.wmnd;
+      AutoLaunch = Yes;
+      Forced = No;
+      Position = "0,12";
+      Lock = Yes;
+    },
+    {
+      Command = "wmamixer -w";
+      Name = wmamixer.Wmamixer;
+      AutoLaunch = Yes;
+      Forced = No;
+      Position = "0,13";
+      Lock = Yes;
+    },
+    {
+      Command = "pcmanfm trash:///";
+      DropCommand = "gio trash %d";
+      Name = Trash.WMDock;
+      AutoLaunch = No;
+      Forced = No;
+      Position = "0,14";
+      Lock = Yes;
+    }
+  );
+  AutoRaiseLower = No;
+  Lowered = Yes;
+  Position = "1376,0";
+}

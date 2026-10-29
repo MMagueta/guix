@@ -1,0 +1,77 @@
+#!/bin/sh
+
+# /run/privileged/bin (setuid sudo, etc.) must stay ahead of the system
+# profile, whose copies lack the setuid bit, and the pulled guix ahead of the
+# system's channel-less one.
+PATH="/run/privileged/bin:$HOME/.config/guix/current/bin:$HOME/.guix-home/profile/bin:$HOME/.guix-profile/bin:/run/current-system/profile/bin:$PATH"
+export PATH
+
+# Replace only the Dock in WMState with the declarative one, keeping the
+# saved session (open applications, workspaces, Clip) that wmaker writes.
+mkdir -p "$HOME/GNUstep/Defaults"
+wdwrite WMState Dock "$(cat "$HOME/GNUstep/Library/WindowMaker/Dock")"
+
+# Attach to the keyring GDM's PAM unlocked at login, as gnome-session would,
+# so libsecret clients (Signal) find their stored keys.  Only the secrets
+# component: SSH is handled by gpg-agent.
+eval "$(gnome-keyring-daemon --start --components=secrets)"
+export GNOME_KEYRING_CONTROL
+
+# On HiDPI outputs (2560px wide or more), render at a lower resolution and
+# let the GPU enlarge it by scale_percent.  Dockapps draw fixed 64x64 images
+# that no setting can enlarge, so this is the only way to scale them;
+# everything else stays at 1x (96 DPI, IconSize 64).  Multiples of 100 are
+# pixel-exact (nearest); anything else needs smoothing (bilinear).
+scale_percent=150 # Keep in sync with display-mode.
+case $((scale_percent % 100)) in
+  0) filter=nearest ;;
+  *) filter=bilinear ;;
+esac
+# Use each output's active mode (the line marked "*"), not the screen
+# geometry, which already reflects any earlier scaling.
+xrandr --query |
+  awk -v pct="$scale_percent" '
+       / connected/ { output = $1; next }
+       /^[^ ]/      { output = "" }
+       output != "" && /\*/ {
+         split($1, mode, "x")
+         if (mode[1] >= 2560)
+           printf "%s %dx%d\n", output,
+                  int(mode[1] * 100 / pct + 0.5),
+                  int(mode[2] * 100 / pct + 0.5)
+         output = ""
+       }' |
+  while read -r output size; do
+    xrandr --output "$output" --scale-from "$size" --filter "$filter"
+  done
+
+# A display plugged into the laptop at login is lit beside the panel's
+# unscaled 2880px, and the screen keeps its unscaled size, so part of it
+# (with the Dock at its right edge) is on no monitor.  Lay the screens out
+# again, extended to the right; F7 changes it.
+if xrandr --query | grep -q '^eDP[^ ]* connected' &&
+   xrandr --query | grep ' connected' | grep -qv '^eDP'; then
+  "$HOME/GNUstep/Library/WindowMaker/display-mode" "Extend right"
+fi
+
+# Load DPI and cursor resources before any X client starts.
+xrdb -merge "$HOME/.Xresources"
+export XCURSOR_THEME=Adwaita
+export XCURSOR_SIZE=32
+
+# libva only looks in its own store directory for drivers, so point it at
+# intel-media-driver in the home profile.  Hardware video decoding saves a
+# lot of battery on YouTube.
+LIBVA_DRIVERS_PATH="$HOME/.guix-home/profile/lib/dri"
+LIBVA_DRIVER_NAME=iHD
+export LIBVA_DRIVERS_PATH LIBVA_DRIVER_NAME
+
+# libX11 themes core cursors (the ones wmaker uses) by dlopen()ing
+# "libXcursor.so.1", which Guix binaries cannot find on their own, so wmaker
+# would fall back to the tiny X11 cursor font.  Point it at libXcursor's own
+# lib directory only.
+libxcursor=$(readlink -f "$HOME/.guix-home/profile/lib/libXcursor.so.1")
+LD_LIBRARY_PATH="${libxcursor%/*}${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+export LD_LIBRARY_PATH
+
+exec wmaker

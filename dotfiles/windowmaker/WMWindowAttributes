@@ -1,0 +1,90 @@
+{
+  "emacs.Emacs" = {
+    Icon = "emacs-gnu.png";
+    AlwaysUserIcon = Yes;
+  };
+  "Emacs" = {
+    Icon = "emacs-gnu.png";
+    AlwaysUserIcon = Yes;
+  };
+  "Alacritty.Alacritty" = {
+    Icon = "classic/gnu.term.tif";
+    AlwaysUserIcon = Yes;
+  };
+  "Alacritty" = {
+    Icon = "classic/gnu.term.tif";
+    AlwaysUserIcon = Yes;
+  };
+  "Navigator.librewolf" = {
+    Icon = "classic/netscape3.tif";
+    AlwaysUserIcon = Yes;
+  };
+  "librewolf.Librewolf" = {
+    Icon = "classic/netscape3.tif";
+    AlwaysUserIcon = Yes;
+  };
+  "Librewolf" = {
+    Icon = "classic/netscape3.tif";
+    AlwaysUserIcon = Yes;
+  };
+  "librewolf" = {
+    Icon = "classic/netscape3.tif";
+    AlwaysUserIcon = Yes;
+  };
+  "Mail.Icedove" = {
+    Icon = "classic/netscape_mail.tif";
+    AlwaysUserIcon = Yes;
+  };
+  "Icedove.Icedove" = {
+    Icon = "classic/netscape_mail.tif";
+    AlwaysUserIcon = Yes;
+  };
+  "Icedove" = {
+    Icon = "classic/netscape_mail.tif";
+    AlwaysUserIcon = Yes;
+  };
+  "pcmanfm.Pcmanfm" = {
+    Icon = "classic/folder.tif";
+    AlwaysUserIcon = Yes;
+  };
+  "Pcmanfm" = {
+    Icon = "classic/folder.tif";
+    AlwaysUserIcon = Yes;
+  };
+  "signal.signal" = {
+    Icon = "signal-desktop.png";
+    AlwaysUserIcon = Yes;
+  };
+  "signal" = {
+    Icon = "signal-desktop.png";
+    AlwaysUserIcon = Yes;
+  };
+  "signal-desktop.Signal-desktop" = {
+    Icon = "signal-desktop.png";
+    AlwaysUserIcon = Yes;
+  };
+  "Signal-desktop" = {
+    Icon = "signal-desktop.png";
+    AlwaysUserIcon = Yes;
+  };
+  "gimp.Gimp" = {
+    Icon = "classic/gimp.tif";
+    AlwaysUserIcon = Yes;
+  };
+  "Gimp" = {
+    Icon = "classic/gimp.tif";
+    AlwaysUserIcon = Yes;
+  };
+  "pavucontrol.pavucontrol" = {
+    Icon = "classic/sound_mixer.tif";
+    AlwaysUserIcon = Yes;
+  };
+  "pavucontrol" = {
+    Icon = "classic/sound_mixer.tif";
+    AlwaysUserIcon = Yes;
+  };
+  "Trash.WMDock" = {
+    Icon = "classic/trash_empty.tif";
+    AlwaysUserIcon = Yes;
+  };
+}

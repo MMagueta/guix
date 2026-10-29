@@ -1,0 +1,38 @@
+"Applications" MENU
+  "Terminal" SHORTCUT "Mod4+Return" EXEC alacritty
+  "Screenshot" SHORTCUT "Print" EXEC ~/GNUstep/Library/WindowMaker/screenshot
+  "Lock Screen" SHORTCUT "Mod4+L" EXEC xscreensaver-command -lock
+  "Displays" EXEC ~/GNUstep/Library/WindowMaker/display-mode
+
+  "Internet" MENU
+    "LibreWolf" EXEC librewolf
+    "Icedove Mail" EXEC icedove
+  "Internet" END
+
+  "Communication" MENU
+    "Signal" EXEC signal-desktop --password-store=gnome-libsecret
+    "Discord" EXEC discord
+  "Communication" END
+
+  "Accessories" MENU
+    "PCManFM" EXEC pcmanfm
+    "Volume Control" EXEC pavucontrol
+  "Accessories" END
+
+  "Graphics" MENU
+    "GIMP" EXEC gimp
+    "Image Viewer" EXEC nsxiv
+  "Graphics" END
+
+  "Development" MENU
+    "Emacs" EXEC emacs
+  "Development" END
+
+  "Workspaces" WORKSPACE_MENU
+  "Preferences" EXEC WPrefs
+  "Screensaver" EXEC xscreensaver-settings
+  "Restart Window Maker" RESTART
+  "Exit Window Maker" EXIT
+  "Restart Computer" EXEC ~/GNUstep/Library/WindowMaker/power-off reboot
+  "Power Off" EXEC ~/GNUstep/Library/WindowMaker/power-off poweroff
+"Applications" END

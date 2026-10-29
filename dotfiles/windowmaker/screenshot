@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# Drag a region (or click a window) to capture it.  The image is saved to
+# ~/Pictures/Screenshots and copied to the clipboard.
+dir="$HOME/Pictures/Screenshots"
+mkdir -p "$dir"
+file="$dir/$(date +%Y-%m-%d_%H-%M-%S).png"
+
+maim --select --hidecursor --bordersize=3 "$file" || exit
+xclip -selection clipboard -t image/png < "$file"
